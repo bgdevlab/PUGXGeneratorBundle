@@ -14,7 +14,7 @@ class {{ form_class }} extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        {% for field, metadata in fields -%}
+        {%- for field, metadata in fields -%}
         {%- if metadata.type == 'relation' or metadata.type == 'relation_many' %}
 
             ->add('{{ field }}', 'filter_entity', array('class' => '{{ metadata.entity }}'))
@@ -24,16 +24,14 @@ class {{ form_class }} extends AbstractType
         {%- elseif metadata.type == 'integer' and field != 'id' %}
 
             ->add('{{ field }}', 'filter_number')
-        {%- elseif metadata.type == 'date' or metadata.type == 'datetime' %}
+        {%- elseif metadata.type == 'date' or metadata.type == 'datetime' or metadata.type == 'datetimetz' %}
 
-            ->add('{{ field }}', 'filter_date')
+            ->add('{{ field }}', 'filter_date_range')
         {%- elseif field != 'id' %}
 
             ->add('{{ field }}', 'filter_text')
-        {%- endif %}
-        {%- endfor %}
-
-        ;
+        {%- endif -%}
+        {%- endfor -%};
     }
 
     /**

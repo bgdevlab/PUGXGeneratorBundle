@@ -37,13 +37,17 @@ class {{ entity_class }}Controller extends Controller
         {%- include 'crud/actions/index.php.twig' %}
     {%- endif %}
 
-    {%- if 'show' in actions %}
-        {%- include 'crud/actions/show.php.twig' %}
+    {%- if withFilter %}
+        {%- include 'crud/actions/filter.php.twig' %}
     {%- endif %}
 
     {%- if 'new' in actions %}
-        {%- include 'crud/actions/new.php.twig' %}
         {%- include 'crud/actions/create.php.twig' %}
+        {%- include 'crud/actions/new.php.twig' %}
+    {%- endif %}
+
+    {%- if 'show' in actions %}
+        {%- include 'crud/actions/show.php.twig' %}
     {%- endif %}
 
     {%- if 'edit' in actions %}
@@ -51,16 +55,13 @@ class {{ entity_class }}Controller extends Controller
         {%- include 'crud/actions/update.php.twig' %}
     {%- endif %}
 
+    {%- if 'delete' in actions %}
+        {%- include 'crud/actions/delete.php.twig' %}
+    {%- endif %}
+
     {%- if withSort %}
         {%- include 'crud/actions/sort.php.twig' %}
     {%- endif %}
 
-    {%- if withFilter %}
-        {%- include 'crud/actions/filter.php.twig' %}
-    {%- endif %}
-
-    {%- if 'delete' in actions %}
-        {%- include 'crud/actions/delete.php.twig' %}
-    {%- endif %}
 
 }

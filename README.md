@@ -1,8 +1,6 @@
 PUGXGeneratorBundle
 ===================
 
-I just added this line to test if pull and push works OK....
-
 [![Total Downloads](https://poser.pugx.org/pugx/generator-bundle/downloads.png)](https://packagist.org/packages/pugx/generator-bundle)
 
 [![knpbundles.com](http://knpbundles.com/PUGX/PUGXGeneratorBundle/badge-short)](http://knpbundles.com/PUGX/PUGXGeneratorBundle)

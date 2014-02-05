@@ -6,6 +6,10 @@ It depends on Bootstrap 2.3.x and FontAwesome 3.2.1
 
 For Symfony 2.2, please switch to 2.2 branch.
 
+A small note on branches and tags: version numbers are not necessarily consistent
+with Symfony ones. We know we should have started versioning by something like ``0.1`` or
+``1.1``, but we cannot change that decision now, for compatibility issues.
+
 
 ## Installation
 
@@ -27,7 +31,7 @@ Add the following lines in your composer.json:
 ```
 {
     "require-dev": {
-        "pugx/generator-bundle": "2.3.*"
+        "pugx/generator-bundle": "2.3.x-dev"
     }
 }
 
@@ -36,11 +40,14 @@ Of course, if you already have other dependencies in your "require-dev", adapt l
 If your "require" section contains "sensio/generator-bundle", you can delete it (since
 it is required by "pugx/generator-bundle".
 
-Now, run composer to download the bundle:
+Run composer to download the bundle:
 
 ``` bash
-$ php composer.phar update pugx/generator-bundle
+$ php composer.phar require pugx/generator-bundle:2.3.x-dev
 ```
+
+Notice that if your composer.json requires "sensio/generator-bundle", you can delete it (since
+it is required by "pugx/generator-bundle").
 
 ### 2. Enable the bundle
 
@@ -82,7 +89,7 @@ Then, you can use a simple layout, like this one:
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>{% block title %}{% endblock %}</title>
+        <title>{% block title '' %}</title>
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% stylesheets
@@ -117,8 +124,8 @@ Then, you can use a simple layout, like this one:
 If you want the confirm delete functionality, you can add the following Javascript code,
 based on jQuery, in one of you files (e.g. ``acme.js`` in layout above):
 
-``` js+php
-$().ready(function() {
+``` js
+$(document).ready(function() {
     /* delete confirm */
     $('form#delete').submit(function(e) {
         var $form = $(this);
@@ -233,12 +240,35 @@ You are about to delete an item: Si sta per eliminare un elemento
 
 If you want to use filters (like the ones in the old symfony 1 admin generator), add
 [LexikFormFilterBundle](https://github.com/lexik/LexikFormFilterBundle) to your bundles.
-Then, use the ``with-filter`` flag in ``pugx:generate:crud`` command.
+Then, use the ``--with-filter`` flag in ``pugx:generate:crud`` command.
 
 Since filters require some additional methods in generated controllers, moving them to
 a generic ``Controller`` class (and extending it instead of Symfony default one)
 could be a good idea.
+
 Please notice that, for now, support for filters is experimental.
+=======
+To enable automatic opening/closing of filters, based on session, you can add following
+code to your Javascript:
+
+``` js
+$(document).ready(function() {
+    /* filter icon */
+    $('button.filter').click(function() {
+        var $icon = $(this).find('i');
+        var target = $(this).attr('data-target');
+        if ($icon.length) {
+            var $div = $(target);
+            if ($div.height() > 0) {
+                $icon.attr('class', 'icon-angle-down')
+            } else {
+                $icon.attr('class', 'icon-angle-right')
+            }
+        }
+    });
+});
+```
+
 There is a known limitation for generation of relations in filter form class, so you
 need to adapt field configuration by hand.
 

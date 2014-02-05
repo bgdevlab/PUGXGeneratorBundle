@@ -1,8 +1,11 @@
 PUGXGeneratorBundle Documentation
 =================================
 
-This version of the bundle requires Symfony 2.3.
+This version of the bundle requires Symfony 2.3.  
+It depends on Bootstrap 2.3.x and FontAwesome 3.2.1
+
 For Symfony 2.2, please switch to 2.2 branch.
+
 
 ## Installation
 
@@ -68,8 +71,8 @@ $ php app/console pugx:generate:crud --help
 
 ### 4. Layout
 
-This bundle is ready to be used with [Bootstrap](http://twitter.github.com/bootstrap/) and
-with [Font Awesome](http://fortawesome.github.com/Font-Awesome/)
+This bundle is ready to be used with [Bootstrap 2.3](https://github.com/twbs/bootstrap/tree/v2.3.2) and
+with [Font Awesome 3](http://fortawesome.github.io/Font-Awesome/3.2.1/)
 
 So, you can download Bootstrap (and, optionally, Font Awesome) and put it in your bundle.
 Then, you can use a simple layout, like this one:

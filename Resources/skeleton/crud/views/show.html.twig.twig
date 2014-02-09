@@ -3,53 +3,48 @@
 {{ '{% block title %}' ~ entity ~ '{% endblock %}' }}
 
 {{ '{% block ' ~ bodyBlock ~ ' %}' }}
-    <h1>{{ entity }}</h1>
 
-    <table class="table table-hover record_properties">
-        <tbody>
-        {%- for field, metadata in fields %}
+{% import "crud/views/others/macros.html.twig.twig" as macros %}
 
-            <tr>
-                <th scope="row">{{ field|replace({'_': ' '})|capitalize }}</th>
+    <h2>{{ entity }}</h2>
+    
+    <form class="form-horizontal">
+    
+        {# The form is split into 2 sections (4 fields in 1st) to DEMONSTRATE ONLY bootstrap layout. #}
+        <div class="well well-small">
+            <legend>Section 1.</legend>
+            <fieldset>
+    
+            {%- for field, metadata in fields %}
+    
+                {%  if loop.index == 4 %}
+            </fieldset>
+        </div>    
+        <div class="well well-small">        
+            <legend>Section 2.</legend>
+            <fieldset>
+                {% endif %}
+                
+                
+                <div class="control-group">
+                    <label class="control-label">{{ field|capitalize }}</label>
+                    <div class="controls">
+                        {%- if metadata.type in ['date', 'datetime','datetimetz'] %}
+                            <span class="input uneditable-input">{{ macros.field_type_resolve(field, entity, metadata) }}</span>
+                        {%- else %}
+                            <span class="input uneditable-input">{{ macros.field_type_resolve(field, entity, metadata) }}</span>
+                        {%- endif %}
+                    </div>
+                </div>
+    
+            {%- endfor %}
+    
+            </fieldset>
 
-            {%- if metadata.type == 'date' %}
-
-                <td>{{ '{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d\') }}' }}</td>
-
-            {%- elseif metadata.type == 'datetime' %}
-
-                <td>{{ '{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}' }}</td>
-
-            {%- elseif metadata.type == 'datetimetz' %}
-
-                <td>{{ '{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}' }}</td>
-
-            {%- elseif metadata.type == 'time' %}
-
-                <td>{{ '{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|date(\'H:i:s\') }}' }}</td>
-
-            {%- elseif metadata.type == 'relation_many' %}
-
-                <td>{{ '{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|join(\', \') }}' }}</td>
-
-            {%- elseif metadata.type == 'boolean' %}
-
-                <td>{{ '{% if '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' %}<i class="icon-ok"></i>{% endif %}' }}</td>
-
-            {%- else %}
-
-                <td>{{ '{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' }}' }}</td>
-
-            {%- endif %}
-
-            </tr>
-
-        {%- endfor %}
-
-        </tbody>
-    </table>
-
-    {% set hide_edit, hide_delete = false, false %}
-    {% include 'crud/views/others/record_actions.html.twig.twig' %}
-
+            {% set hide_edit, hide_delete = false, false %}
+            {% include 'crud/views/others/record_actions.html.twig.twig' %}
+            
+        </div>
+    </form>
+    
 {{ '{% endblock %}' }}

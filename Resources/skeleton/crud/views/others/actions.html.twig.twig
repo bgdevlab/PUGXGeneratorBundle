@@ -4,8 +4,9 @@
                 {%- for action in record_actions %}
 
                     <a class="btn" href="{{ "{{ path('"~ route_name_prefix ~"_"~ action ~"', {'id': "~ entity|lower ~".id}) }}" }}">
-                        <i class="icon-{{ action == 'show' ? 'file' : action }}"></i> {{ "{{ '"~ action ~"'|trans({}, 'admin')|un_camel_case|title }}" }}
+                        <i class="icon-{{ action == 'show' ? 'file' : action }}"></i> {{ "{{ '"~ action ~"'|trans({}, '"}}{{ bundle }}{{"')|un_camel_case|title }}" }}
                     </a>
                 {%- endfor %}
                     
                 </div>
+    

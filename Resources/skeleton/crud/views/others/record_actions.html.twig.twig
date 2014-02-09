@@ -1,22 +1,24 @@
+
+
+
 {% if ('delete' in actions) and (not hide_delete) %}
 <form id="delete" action="{{ "{{ path('"~ route_name_prefix ~"_delete', {id: "~ entity|lower ~".id}) }}" }}" method="post">
     {{ '{{ form_widget(delete_form) }}' }}
 {% endif %}
 
-    <div class="btn-group record_actions">
+    <div class="record_actions form-actions">
 
-        <a class="btn btn-info" href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}">
-            <i class="icon-list"></i> {{ "{{ 'Back to the list'|trans({}, 'admin') }}" }}
+        <a class="btn" href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}">
+            <i class="icon-list"></i> {{ "{{ 'views.recordactions.backtothelist'|trans({}, '"}}{{ bundle }}{{"') }}" }}
         </a>
-
 {% if ('edit' in actions) and (not hide_edit) %}
         <a class="btn btn-primary" href="{{ "{{ path('"~ route_name_prefix ~"_edit', {id: "~ entity|lower ~".id}) }}" }}">
-            <i class="icon-edit"></i> {{ "{{ 'Edit'|trans({}, 'admin') }}" }}
+            <i class="icon-edit"></i> {{ "{{ 'views.recordactions.edit'|trans({}, '"}}{{ bundle }}{{"') }}" }}
         </a>
 {% endif %}
 
-{% if ('delete' in actions) and (not hide_delete) %}
-        <button class="btn btn-danger" type="submit"><i class="icon-trash"></i> {{ "{{ 'Delete'|trans({}, 'admin') }}" }}</button>
+{% if ('delete' in actions) and (not hide_delete) %}        
+        <button class="btn btn-danger" type="submit"><i class="icon-trash"></i> {{ "{{ 'views.recordactions.delete'|trans({}, '"}}{{ bundle }}{{"') }}" }}</button>
 {% endif %}
 
     </div>
@@ -24,19 +26,25 @@
 {% if ('delete' in actions) and (not hide_delete) %}
     <input name="modal" type="hidden" value="0">
 </form>
+{% endif %}
+
+
+
+{% if ('delete' in actions) and (not hide_delete) %}
 
 <div id="delete_confirm" class="modal hide fade">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3>{{ "{{ 'Confirm delete'|trans({}, 'admin') }}" }}</h3>
+        <h3>{{ "{{ 'Confirm delete'|trans({}, '"}}{{ bundle }}{{"') }}" }}</h3>
     </div>
     <div class="modal-body">
-        <p>{{ "{{ 'You are about to delete an item'|trans({}, 'admin') }}" }}, {{ "{{ 'this procedure is irreversible'|trans({}, 'admin') }}" }}.</p>
-        <p>{{ "{{ 'Do you want to proceed?'|trans({}, 'admin') }}" }}</p>
+        <p>{{ "{{ 'You are about to delete an item'|trans({}, '"}}{{ bundle }}{{"') }}" }}, {{ "{{ 'this procedure is irreversible'|trans({}, '"}}{{ bundle }}{{"') }}" }}.</p>
+        <p>{{ "{{ 'Do you want to proceed?'|trans({}, '"}}{{ bundle }}{{"') }}" }}</p>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-danger">{{ "{{ 'Yes'|trans({}, 'admin') }}" }}</button>
-        <button class="btn btn-secondary" data-dismiss="modal">{{ "{{ 'No'|trans({}, 'admin') }}" }}</button>
+        <button class="btn btn-danger">{{ "{{ 'Yes'|trans({}, '"}}{{ bundle }}{{"') }}" }}</button>
+        <button class="btn btn-secondary" data-dismiss="modal">{{ "{{ 'No'|trans({}, '"}}{{ bundle }}{{"') }}" }}</button>
     </div>
 </div>
+
 {% endif %}

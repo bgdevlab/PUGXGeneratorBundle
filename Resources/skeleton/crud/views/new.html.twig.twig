@@ -4,16 +4,23 @@
 {{ "{% form_theme form '"~ theme ~"' %}" }}
 {% endif %}
 
-{{ '{% block title %}' ~ "{{ '%entity% creation'|trans({'%entity%': '"~ entity ~"'}, 'admin') }}" ~ '{% endblock %}' }}
+{{ '{% block title %}' ~ "{{ 'views.new.creation'|trans({'%entity%': '"~ entity ~"'}, '"}}{{ bundle }}{{"')|un_camel_case|title }}" ~ '{% endblock %}' }}
 
 {{ '{% block ' ~ bodyBlock ~ ' %}' }}
-    <h1>{{ "{{ '%entity% creation'|trans({'%entity%': '"~ entity ~"'}, 'admin') }}" }}</h1>
+    <h2>{{ "{{ 'views.new.creation'|trans({'%entity%': '"~ entity ~"'}, '"}}{{ bundle }}{{"')|un_camel_case|title }}" }}</h2>
 
-    <form action="{{ "{{ path('"~ route_name_prefix ~"_create') }}" }}" method="post" {{ "{{ form_enctype(form) }}" }}>
-        {{ "{{ form_widget(form) }}" }}
-        <p>
-            <button class="btn btn-primary" type="submit">{{ "{{ 'Create'|trans({}, 'admin') }}" }}</button>
-        </p>
+    <form novalidate action="{{ "{{ path('"~ route_name_prefix ~"_create') }}" }}" method="post" {{ "{{ form_enctype(form) }}" }} class="well form-horizontal">
+        <div class="">
+            <legend>Section Heading</legend>
+            <fieldset>
+                {{ "{{ form_widget(form, {'form_type': 'horizontal'}) }}" }}
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success"><i class="icon-plus"> </i>{{ "{{ 'views.new.create'|trans({}, '"}}{{ bundle }}{{"') }}" }}</button>
+                </div>
+            </fieldset>
+        </div>
+            
     </form>
 
     {% set hide_edit, hide_delete = true, true %}

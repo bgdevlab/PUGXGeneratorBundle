@@ -23,29 +23,54 @@
 
 {% endif -%}
 
+{% import "crud/views/others/macros.html.twig.twig" as macros %}
+
+
 {{ '{% block ' ~ bodyBlock ~ ' %}' }}
-    <h1>{{ "{{ '%entity% list'|trans({'%entity%': '"~ entity ~"'}, 'admin') }}" }}</h1>
+    <h1>{{ "{{ '%entity% list'|trans({'%entity%': '"~ entity ~"'}, '"}}{{ bundle }}{{"') }}" }}</h1>
 
     {% if withFilter -%}
     {{ "{% include '"~ bundle ~":"~ entity ~":filter.html.twig' with {form: form} %}" }}
     {% endif %}
 
-    <table class="table table-striped table-hover table-bordered records_list">
+    <table class="table table-striped table-hover table-condensed records_list">
         <thead>
             <tr>
+                
+                {% set column_count_max=8 %}
+                {% set column_count_tablet=6 %}
+                {% set column_count_phone=4 %}
+                
             {%- for field, metadata in fields %}
 
-                <th scope="col">
+                {% set responsive_classes = '' %}
+                {% if loop.index > column_count_tablet %}
+                    {% set responsive_classes = 'hidden-phone hidden-tablet' %}
+                {%- elseif loop.index > column_count_phone %}
+                    {% set responsive_classes = 'hidden-phone' %}
+                {% endif %}
+
+
+                {% if loop.index > column_count_max %}
+                <!--
+                {% endif %}
+                
+                <th scope="col" class="{{ responsive_classes -}}">
                 {%- if withSort -%}
+
                 {{ "{{ thead('" ~ entity|lower ~"', '"~ field ~"', '"~ field|replace({'_': ' '})|un_camel_case|title ~"') }}" }}
                 {%- else -%}
                 {{ field|replace({'_': ' '})|un_camel_case|title }}
+                
                 {%- endif -%}
                 </th>
-
+                {% if loop.index > column_count_max %}
+                -->
+                {% endif %}
+                
             {%- endfor %}
 
-                <th scope="col">{{ "{{ 'Actions'|trans({}, 'admin') }}" }}</th>
+                <th scope="col">{{ "{{ 'Actions'|trans({}, '"}}{{ bundle }}{{"') }}" }}</th>
             </tr>
         </thead>
         <tbody>
@@ -54,37 +79,28 @@
 
         {%- for field, metadata in fields %}
             {%- if loop.first and ('show' in actions) %}
-
                 <td><a href="{{ "{{ path('"~ route_name_prefix ~"_show', {id: "~ entity|lower ~".id}) }}" }}">{{ '{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' }}' }}</a></td>
 
-            {%- elseif metadata.type == 'date' %}
-
-                <td>{{ '{% if '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' %}{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d\') }}{% endif %}' }}</td>
-
-            {%- elseif metadata.type == 'datetime' %}
-
-                <td>{{ '{% if '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' %}{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
-
-            {%- elseif metadata.type == 'datetimetz' %}
-
-                <td>{{ '{% if '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' %}{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
-
-            {%- elseif metadata.type == 'time' %}
-
-                <td>{{ '{% if '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' %}{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|date(\'H:i:s\') }}{% endif %}' }}</td>
-
-            {%- elseif metadata.type == 'relation_many' %}
-
-                <td>{{ '{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|join(\', \') }}' }}</td>
-
-            {%- elseif metadata.type == 'boolean' %}
-
-                <td>{{ '{% if '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' %}<i class="icon-ok"></i>{% endif %}' }}</td>
-
             {%- else %}
+                
+                {% set responsive_classes = '' %}
+                {% if loop.index > column_count_tablet %}
+                    {% set responsive_classes = 'hidden-phone hidden-tablet' %}
+                {%- elseif loop.index > column_count_phone %}
+                    {% set responsive_classes = 'hidden-phone' %}
+                {% endif %}
 
-                <td>{{ '{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' }}' }}</td>
-
+                {% if loop.index > column_count_max %}
+                <!--
+                {% endif %}
+                
+                <td class="{{- responsive_classes -}}">
+                    {{ macros.field_type_resolve(field, entity, metadata) }}
+                </td>
+                {% if loop.index > column_count_max %}
+                -->
+            {% endif %}
+                
             {%- endif %}
 
             {%- if loop.last %}
@@ -109,8 +125,8 @@
 
     <ul class="new_entry unstyled">
         <li>
-            <a class="btn btn-info" href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}">
-                <i class="icon-plus"></i> {{ "{{ 'Create a new entry'|trans({}, 'admin') }}" }}
+            <a class="btn btn-primary" href="{{ "{{ path('"~ route_name_prefix ~"_new') }}" }}">
+                <i class="icon-plus"></i>  {{ "{{ 'views.index.createnew'|trans({}, '"~ bundle ~"') }}" }} {{ entity }}
             </a>
         </li>
     </ul>

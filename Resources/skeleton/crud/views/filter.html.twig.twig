@@ -1,13 +1,13 @@
 {% if theme -%}
 {{ "{% form_theme form '"~ theme ~"' %}" }}
 {% endif %}
-<button type="button" class="btn filter" data-toggle="collapse" data-target="#filter">{{ "{{ 'Show/hide filters'|trans({}, 'admin') }}" }} <i class="icon-angle-{{ "{{ app.session.get('filter." ~ entity|lower ~ "') ? 'right' : 'down' }}" }}"></i></button>
+<button type="button" class="btn filter" data-toggle="collapse" data-target="#filter">{{ "{{ 'Show/hide filters'|trans({}, '"}}{{ bundle }}{{"') }}" }} <i class="icon-angle-{{ "{{ app.session.get('filter." ~ entity|lower ~ "') ? 'right' : 'down' }}" }}"></i></button>
 <div id="filter" class="collapse {{ "{% if app.session.get('filter." ~ entity|lower ~ "') %} in{% endif %}" }}">
-    <form method="get" action="">
+    <form method="get" action="" class="form-horizontal">
         {{ "{{ form_widget(form) }}" }}
         <p>
-            <button class="btn" type="submit" name="submit-filter"><i class="icon-filter"></i> {{ "{{ 'Filter'|trans({}, 'admin') }}" }}</button>
-            <a class="btn" href="?reset-filter"><i class="icon-remove"></i> {{ "{{ 'Reset filters'|trans({}, 'admin') }}" }}</a>
+            <button class="btn" type="submit" name="submit-filter"><i class="icon-filter"></i> {{ "{{ 'Filter'|trans({}, '"}}{{ bundle }}{{"') }}" }}</button>
+            <a class="btn" href="?reset-filter"><i class="icon-remove"></i> {{ "{{ 'Reset filters'|trans({}, '"}}{{ bundle }}{{"') }}" }}</a>
         </p>
     </form>
 </div>

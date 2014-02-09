@@ -1,0 +1,42 @@
+{% macro action_view(route_name_prefix, trans_bundle, entity) %}
+    {% spaceless %}
+        <a class="btn" href="{{ "{{ path('"~ route_name_prefix ~"') }}" }}"><i class="icon-list icon-white"></i>
+            {{ "{{ 'views.recordactions.backtothelist'|trans({}, '"~ trans_bundle ~"') }}" }}
+        </a>
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro action_edit(route_name_prefix, trans_bundle, entity, actions) %}
+    {% spaceless %}
+        <a class="btn btn-primary" href="{{ "{{ path('"~ route_name_prefix ~"_edit', { 'id': entity.id }) }}" }}">
+            {{ "{{ 'views.recordactions.edit'|trans({}, '"~ trans_bundle ~"') }}" }}
+        </a>
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro field_type_resolve(field, entity, metadata) %}
+    {% spaceless %}
+
+        {%- if metadata.type in ['date'] %}
+            {{ '{% if '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' %}{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d\') }}{% endif %}' }}
+
+        {%- elseif metadata.type in ['datetime', 'datetimetz'] %}
+            {{ '{% if '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' %}{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}{% endif %}' }}
+
+        {%- elseif metadata.type == 'time' %}
+            {{ '{% if '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' %}{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|date(\'H:i:s\') }}{% endif %}' }}
+
+        {%- elseif metadata.type == 'relation_many' %}
+            {{ '{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~'|join(\', \') }}' }}
+
+        {%- elseif metadata.type == 'boolean' %}
+            {{ '{% if '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' %}<i class="icon-ok"></i>{% endif %}' }}
+
+        {%- else %}
+            {{ '{{ '~ entity|lower ~'.'~ field|replace({'_': ''}) ~' }}' }}
+
+        {%- endif %}
+
+    {% endspaceless %}
+{% endmacro %}
+

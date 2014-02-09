@@ -5,6 +5,7 @@ namespace {{ namespace }}\Form\Type{{ entity_namespace ? '\\' ~ entity_namespace
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 
 class {{ form_class }} extends AbstractType
 {
@@ -26,10 +27,21 @@ class {{ form_class }} extends AbstractType
             ->add('{{ field }}', 'filter_number')
         {%- elseif metadata.type == 'date' or metadata.type == 'datetime' or metadata.type == 'datetimetz' %}
 
-            ->add('{{ field }}', 'filter_date_range')
+            ->add('{{ field }}', 'filter_date_range', array(
+                'left_date_options' => array(
+                    'years' => range(date('Y') + 1, date('Y') - 100)
+                ),
+                'right_date_options' => array(
+                    'years' => range(date('Y') + 1, date('Y') - 100)
+                ),
+                'label' => 'Collect Period',
+            ))
+    
         {%- elseif field != 'id' %}
 
-            ->add('{{ field }}', 'filter_text')
+            ->add('{{ field }}', 'filter_text', array(
+                'condition_pattern' => FilterOperands::STRING_BOTH
+            ))
         {%- endif -%}
         {%- endfor -%};
     }

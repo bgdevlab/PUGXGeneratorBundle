@@ -17,8 +17,13 @@ class {{ form_class }} extends AbstractType
         {%- for field,info in fields -%}
 
             {%- if field != 'id' %}
-
-            ->add('{{ field }}')
+                {%- if info.type in ['date', 'datetime','datetimetz'] %}
+                ->add('{{ field }}','{{ info.type }}', array(
+                    'years' => range(date('Y') + 1, date('Y') - 100)
+                ))                              
+                {%- else -%}
+                ->add('{{ field }}')
+                {%- endif -%}
             {%- endif -%}
         {%- endfor -%};
     }

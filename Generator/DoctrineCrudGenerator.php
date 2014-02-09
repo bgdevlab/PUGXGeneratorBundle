@@ -289,7 +289,6 @@ class DoctrineCrudGenerator extends Generator
             'usePaginator'      => $this->usePaginator,
             'withFilter'        => $this->withFilter,
             'withSort'          => $this->withSort,
-            'bundle'            => $this->bundle->getName(),
         ));
     }
 
